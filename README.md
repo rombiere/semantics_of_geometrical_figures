@@ -159,7 +159,7 @@ semantics_of_geometrical_figures/
 │   ├── fig.sk                # Spécification Skell du langage
 │   └── main.ml               # Programme principal avec exemples
 │
-├── lib/                      # Bibliothèques (vide actuellement)
+├── lib/                   
 │   ├── dune
 │   └── figure_utils.ml       # Utilitaires géométriques (GPC)
 │
