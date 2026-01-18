@@ -1,4 +1,4 @@
-# Projet sémantiques avancées - Sémantique des figures géométriques
+# Projet : Sémantique des figures géométriques
 
 Projet de sémantiques avancées - M2 SIF
 
