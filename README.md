@@ -43,125 +43,8 @@ dune exe semantics_of_geometrical_figures
 - **Différence** (`Difference`) : calcule la différence A \ B
 - **Différence symétrique** (`SymmetricDifference`) : calcule (A \ B) ∪ (B \ A)
 
-## 📖 Manuel d'utilisation
-
-### Créer des géométries
-
-#### Points
-Un point est défini par ses coordonnées (x, y) :
-
-```ocaml
-let p1 = (1.0, 2.0)
-let p2 = (3.5, 4.5)
-```
-
-#### Segments
-Un segment est une paire de points :
-
-```ocaml
-let seg = ((0.0, 0.0), (3.0, 0.0))
-let seg_geo = Cons (Segment seg, Nil)
-```
-
-#### Polygones simples
-Un polygone simple (sans trous) est défini par une liste de points formant son contour extérieur :
-
-```ocaml
-let poly = { 
-  outer = [(0.0, 0.0); (4.0, 0.0); (4.0, 4.0); (0.0, 4.0)]; 
-  holes = [] 
-}
-let poly_geo = Cons (Polygon poly, Nil)
-```
-
-#### Polygones avec trous
-Un polygone avec trous (holes) inclut des anneaux intérieurs :
-
-```ocaml
-let poly_with_holes = { 
-  outer = [(0.0, 0.0); (10.0, 0.0); (10.0, 10.0); (0.0, 10.0)]; (* contour extérieur *)
-  holes = [
-    [(2.0, 2.0); (4.0, 2.0); (4.0, 4.0); (2.0, 4.0)];  (* trou 1 *)
-    [(6.0, 6.0); (8.0, 6.0); (8.0, 8.0); (6.0, 8.0)]   (* trou 2 *)
-  ]
-}
-```
-
-### Effectuer des opérations
-
-#### Opérations booléennes (Intersection, Union, Différence)
-
-```ocaml
-(* Intersection de deux géométries *)
-let a_geo = Cons (Polygon poly_a, Nil)
-let b_geo = Cons (Polygon poly_b, Nil)
-let result = run_eval(
-  LetIn (0, Geometry a_geo,
-  LetIn (1, Geometry b_geo,
-  Intersection (Var 0, Var 1)))
-)
-
-(* Union *)
-let result_union = run_eval(
-  LetIn (0, Geometry a_geo,
-  LetIn (1, Geometry b_geo,
-  Union (Var 0, Var 1)))
-)
-
-(* Différence (A \ B) *)
-let result_diff = run_eval(
-  LetIn (0, Geometry a_geo,
-  LetIn (1, Geometry b_geo,
-  Difference (Var 0, Var 1)))
-)
-
-(* Différence symétrique (A Δ B) *)
-let result_sym_diff = run_eval(
-  LetIn (0, Geometry a_geo,
-  LetIn (1, Geometry b_geo,
-  SymmetricDifference (Var 0, Var 1)))
-)
-```
-
-#### Tests d'inclusion et d'égalité
-
-```ocaml
-(* Tester si A contient B *)
-let contains = run_eval(
-  LetIn (0, Geometry a_geo,
-  LetIn (1, Geometry b_geo,
-  Includes (Var 0, Var 1)))
-)
-
-(* Tester l'égalité entre deux géométries *)
-let equal = run_eval(
-  LetIn (0, Geometry a_geo,
-  LetIn (1, Geometry b_geo,
-  Eq (Var 0, Var 1)))
-)
-```
-
-#### Chaîner les opérations
-
-```ocaml
-(* Exemple: (A ∩ B) ∪ C *)
-let result = run_eval(
-  LetIn (0, Geometry a_geo,
-  LetIn (1, Geometry b_geo,
-  LetIn (2, Geometry c_geo,
-  LetIn (3, Intersection (Var 0, Var 1),
-  Union (Var 3, Var 2)))))
-)
-```
-
-### Afficher les résultats
-
-```ocaml
-Printf.printf "Résultat: %s\n" (string_of_value result)
-```
-
-## �🔧 Prérequis
-
+### 📋 Prérequis
+ 
 ### Logiciels requis
 - **OCaml** >= 5.1.1 (testé avec 5.4.0 installé localement)
 - **Opam** >= 2.1 (gestionnaire de paquets OCaml, testé avec 2.4.1)
@@ -279,6 +162,125 @@ semantics_of_geometrical_figures/
     ├── dune
     └── geometry_tests.ml     # Suite de tests des primitives géométriques
 ```
+
+
+## 📖 Manuel d'utilisation
+
+### Créer des géométries
+
+#### Points
+Un point est défini par ses coordonnées (x, y) :
+
+```ocaml
+let p1 = (1.0, 2.0)
+let p2 = (3.5, 4.5)
+```
+
+#### Segments
+Un segment est une paire de points :
+
+```ocaml
+let seg = ((0.0, 0.0), (3.0, 0.0))
+let seg_geo = Cons (Segment seg, Nil)
+```
+
+#### Polygones simples
+Un polygone simple (sans trous) est défini par une liste de points formant son contour extérieur :
+
+```ocaml
+let poly = { 
+  outer = [(0.0, 0.0); (4.0, 0.0); (4.0, 4.0); (0.0, 4.0)]; 
+  holes = [] 
+}
+let poly_geo = Cons (Polygon poly, Nil)
+```
+
+#### Polygones avec trous
+Un polygone avec trous (holes) inclut des anneaux intérieurs :
+
+```ocaml
+let poly_with_holes = { 
+  outer = [(0.0, 0.0); (10.0, 0.0); (10.0, 10.0); (0.0, 10.0)]; (* contour extérieur *)
+  holes = [
+    [(2.0, 2.0); (4.0, 2.0); (4.0, 4.0); (2.0, 4.0)];  (* trou 1 *)
+    [(6.0, 6.0); (8.0, 6.0); (8.0, 8.0); (6.0, 8.0)]   (* trou 2 *)
+  ]
+}
+```
+
+### Effectuer des opérations
+
+#### Opérations booléennes (Intersection, Union, Différence)
+
+```ocaml
+(* Intersection de deux géométries *)
+let a_geo = Cons (Polygon poly_a, Nil)
+let b_geo = Cons (Polygon poly_b, Nil)
+let result = run_eval(
+  LetIn (0, Geometry a_geo,
+  LetIn (1, Geometry b_geo,
+  Intersection (Var 0, Var 1)))
+)
+
+(* Union *)
+let result_union = run_eval(
+  LetIn (0, Geometry a_geo,
+  LetIn (1, Geometry b_geo,
+  Union (Var 0, Var 1)))
+)
+
+(* Différence (A \ B) *)
+let result_diff = run_eval(
+  LetIn (0, Geometry a_geo,
+  LetIn (1, Geometry b_geo,
+  Difference (Var 0, Var 1)))
+)
+
+(* Différence symétrique (A Δ B) *)
+let result_sym_diff = run_eval(
+  LetIn (0, Geometry a_geo,
+  LetIn (1, Geometry b_geo,
+  SymmetricDifference (Var 0, Var 1)))
+)
+```
+
+#### Tests d'inclusion et d'égalité
+
+```ocaml
+(* Tester si A contient B *)
+let contains = run_eval(
+  LetIn (0, Geometry a_geo,
+  LetIn (1, Geometry b_geo,
+  Includes (Var 0, Var 1)))
+)
+
+(* Tester l'égalité entre deux géométries *)
+let equal = run_eval(
+  LetIn (0, Geometry a_geo,
+  LetIn (1, Geometry b_geo,
+  Eq (Var 0, Var 1)))
+)
+```
+
+#### Chaîner les opérations
+
+```ocaml
+(* Exemple: (A ∩ B) ∪ C *)
+let result = run_eval(
+  LetIn (0, Geometry a_geo,
+  LetIn (1, Geometry b_geo,
+  LetIn (2, Geometry c_geo,
+  LetIn (3, Intersection (Var 0, Var 1),
+  Union (Var 3, Var 2)))))
+)
+```
+
+### Afficher les résultats
+
+```ocaml
+Printf.printf "Résultat: %s\n" (string_of_value result)
+```
+
 
 ## 🧪 Tests
 
