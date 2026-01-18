@@ -75,11 +75,16 @@ opam install necrolib
 
 ## 🚀 Installation et Utilisation
 
-### Compiler le projet
-
-Placez-vous à la racine du projet, puis :
+### Cloner le dépôt
 
 ```bash
+git clone https://github.com/rombiere/semantics_of_geometrical_figures.git
+```
+
+### Compiler le projet
+
+```bash
+cd semantics_of_geometrical_figures
 dune build
 ```
 
