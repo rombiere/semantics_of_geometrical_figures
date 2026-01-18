@@ -33,20 +33,18 @@ module Spec = struct
 
   let seg_includes_pt (seg, pt) = if FigureUtils.seg_contains_pt seg pt then M.ret TT else M.ret FF
 
-  let poly_includes_seg (poly, seg) = if FigureUtils.poly_contains_seg poly seg then M.ret TT else M.ret FF
-
-  let seg_seg_inter (seg1, seg2) =
+  let seg_inter_seg (seg1, seg2) =
     if FigureUtils.eq_segment seg1 seg2 then M.ret (Segment seg1) else 
-    match FigureUtils.seg_seg_inter seg1 seg2 with
+    match FigureUtils.seg_inter_seg seg1 seg2 with
     | Some inter -> M.ret (Point inter)
     | None -> M.ret Empty
 
-  let seg_poly_inter (seg, poly) =
-    let inter = FigureUtils.seg_poly_inter seg poly in
+  let poly_inter_seg (poly, seg) =
+    let inter = FigureUtils.poly_inter_seg poly seg in
     let inter_geo = List.fold_right (fun s acc -> Cons (Segment s, acc)) inter Nil in
     M.ret inter_geo
   
-  let poly_poly_inter (poly1, poly2) =
+  let poly_inter_poly (poly1, poly2) =
     let polys = FigureUtils.clip poly1 poly2 in
     let figs = List.map (fun p -> Polygon p) polys in
     let inter = List.fold_right (fun f acc -> Cons (f, acc)) figs Nil in

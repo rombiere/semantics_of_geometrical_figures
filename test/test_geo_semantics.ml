@@ -141,33 +141,33 @@ let test_approx_point_far () =
   let result = eq_point p1 p2 in
   Alcotest.(check bool) "points éloignés" false result
 
-(* ========== Tests pour seg_seg_inter ========== *)
+(* ========== Tests pour seg_inter_seg ========== *)
 
-let test_seg_seg_inter_intersecting () =
+let test_seg_inter_seg_intersecting () =
   let seg1 = ((0., 0.), (2., 2.)) in
   let seg2 = ((0., 2.), (2., 0.)) in
   let expected_result = (1., 1.) in
-  let result = seg_seg_inter seg1 seg2 in
+  let result = seg_inter_seg seg1 seg2 in
   match result with
   | Some p -> Alcotest.(check point_testable) "intersection au centre" expected_result p
   | None -> Alcotest.fail "Devrait trouver une intersection"
 
-let test_seg_seg_inter_parallel () =
+let test_seg_inter_seg_parallel () =
   let seg1 = ((0., 0.), (2., 0.)) in
   let seg2 = ((0., 1.), (2., 1.)) in
-  let result = seg_seg_inter seg1 seg2 in
+  let result = seg_inter_seg seg1 seg2 in
   Alcotest.(check option_point_testable) "segments parallèles" None result
 
-  let test_seg_seg_inter_non_overlapping () =
+  let test_seg_inter_seg_non_overlapping () =
   let seg1 = ((0., 0.), (1., 0.)) in
   let seg2 = ((2., 0.), (3., 0.)) in
-  let result = seg_seg_inter seg1 seg2 in
+  let result = seg_inter_seg seg1 seg2 in
   Alcotest.(check option_point_testable) "segments non-chevauchants" None result
 
-let test_seg_seg_inter_endpoint () =
+let test_seg_inter_seg_endpoint () =
   let seg1 = ((0., 0.), (1., 1.)) in
   let seg2 = ((1., 1.), (2., 0.)) in
-  let result = seg_seg_inter seg1 seg2 in
+  let result = seg_inter_seg seg1 seg2 in
   let expected_result = Some (1., 1.) in
   Alcotest.(check (option point_testable)) "intersection à une extrémité" expected_result result
 
@@ -447,11 +447,11 @@ let approx_point_suite = [
   "points éloignés", `Quick, test_approx_point_far;
 ]
 
-let seg_seg_inter_suite = [
-  "segments qui se croisent", `Quick, test_seg_seg_inter_intersecting;
-  "segments parallèles", `Quick, test_seg_seg_inter_parallel;
-  "segments non-chevauchants", `Quick, test_seg_seg_inter_non_overlapping;
-  "intersection à une extrémité", `Quick, test_seg_seg_inter_endpoint;
+let seg_inter_seg_suite = [
+  "segments qui se croisent", `Quick, test_seg_inter_seg_intersecting;
+  "segments parallèles", `Quick, test_seg_inter_seg_parallel;
+  "segments non-chevauchants", `Quick, test_seg_inter_seg_non_overlapping;
+  "intersection à une extrémité", `Quick, test_seg_inter_seg_endpoint;
 ]
 
 let poly_contains_pt_suite = [
@@ -511,7 +511,7 @@ let subtract_suite = [
 let () =
   Alcotest.run "Tests de géométrie" [
     "eq_point", approx_point_suite;
-    "seg_seg_inter", seg_seg_inter_suite;
+    "seg_inter_seg", seg_inter_seg_suite;
     "poly_contains_pt", poly_contains_pt_suite;
     "param_of_point_on_segment", param_of_point_suite;
     "candidate_points_on_segment", candidate_points_suite;

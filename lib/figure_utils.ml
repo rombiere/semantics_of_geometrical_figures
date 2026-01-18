@@ -212,7 +212,7 @@ module FigureUtils = struct
       not (List.exists (fun hole -> ring_contains_pt pt hole) poly.holes)
   
   (* Segment ∩ Segment → point *)
-  let seg_seg_inter (seg1: segment) (seg2: segment) =
+  let seg_inter_seg (seg1: segment) (seg2: segment) =
     let (x1, y1), (x2, y2) = seg1 in
     let (x3, y3), (x4, y4) = seg2 in
     let denom =
@@ -254,7 +254,7 @@ module FigureUtils = struct
     for i = 0 to n - 1 do
       let p1 = List.nth r i in
       let p2 = List.nth r ((i+1) mod n) in
-      match seg_seg_inter (a,b) (p1,p2) with
+      match seg_inter_seg (a,b) (p1,p2) with
       | None -> ()
       | Some ip ->
           let t = param_of_point_on_segment a b ip in
@@ -306,7 +306,7 @@ module FigureUtils = struct
     in
     aux [] sorted_points
 
-  let seg_poly_inter (seg : segment) (poly : polygon) : segment list =
+  let poly_inter_seg (poly : polygon) (seg : segment) : segment list =
     let candidates = candidate_points_on_segment seg poly in
     build_inside_segments seg poly candidates
 
@@ -319,18 +319,6 @@ module FigureUtils = struct
     else
       x >= min x1 x2 -. eps && x <= max x1 x2 +. eps &&
       y >= min y1 y2 -. eps && y <= max y1 y2 +. eps
-
-  (* Segment ⊆ Polygon → bool *)
-  let poly_contains_seg (poly : polygon) (seg : segment) : bool =
-    let (p1, p2) = seg in
-    poly_contains_pt p1 poly && poly_contains_pt p2 poly &&
-    let candidates = candidate_points_on_segment seg poly in
-    match candidates with
-    | [] -> false
-    | _ ->
-        let mid_x = (fst p1 +. fst p2) /. 2. in
-        let mid_y = (snd p1 +. snd p2) /. 2. in
-        poly_contains_pt (mid_x, mid_y) poly
 
   (* Polygon ∩ Polygon *)
   let clip (poly1: polygon) (poly2: polygon) : polygon list =

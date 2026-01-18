@@ -55,9 +55,9 @@ val eq_figure ((fig1: figure), (fig2: figure)) : bool =
     end
 
 (* Intersection operations *)
-val seg_seg_inter : (segment, segment) -> figure
-val seg_poly_inter : (segment, polygon) -> geometry
-val poly_poly_inter : (polygon, polygon) -> geometry
+val seg_inter_seg : (segment, segment) -> figure
+val poly_inter_seg : (polygon, segment) -> geometry
+val poly_inter_poly : (polygon, polygon) -> geometry
 
 val fig_fig_inter ((fig1: figure), (fig2: figure)) : geometry =
     match (fig1, fig2) with
@@ -73,7 +73,7 @@ val fig_fig_inter ((fig1: figure), (fig2: figure)) : geometry =
         end
     | (Segment _, Point _) -> fig_fig_inter (fig2, fig1)
     | (Segment s1, Segment s2) ->
-        let inter = seg_seg_inter (s1, s2) in
+        let inter = seg_inter_seg (s1, s2) in
         Cons (inter, Nil)
     | (Point pt1, Polygon poly2) ->
         match poly_includes_pt (poly2, pt1) with
@@ -82,10 +82,10 @@ val fig_fig_inter ((fig1: figure), (fig2: figure)) : geometry =
         end
     | (Polygon _, Point _) -> fig_fig_inter (fig2, fig1)
     | (Segment s1, Polygon poly2) ->
-        let inter = seg_poly_inter (s1, poly2) in
+        let inter = poly_inter_seg (poly2, s1) in
         inter
     | (Polygon _, Segment _) -> fig_fig_inter (fig2, fig1)
-    | (Polygon poly1, Polygon poly2) -> poly_poly_inter (poly1, poly2)
+    | (Polygon poly1, Polygon poly2) -> poly_inter_poly (poly1, poly2)
     | _ -> Nil
     end
 
@@ -106,17 +106,26 @@ val fig_geo_inter ((fig: figure), (geo: geometry)) : geometry =
 (* Inclusion operations *)
 val seg_includes_pt : (segment, point) -> bool
 val poly_includes_pt : (polygon, point) -> bool
-val poly_includes_seg : (polygon, segment) -> bool
 
 val fig_includes_fig ((outer: figure), (inner: figure)) : bool =
     match (outer, inner) with
     | (Point pt_outer, Point pt_inner) -> eq_point (pt_outer, pt_inner)
     | (Segment seg_outer, Point pt_inner) -> seg_includes_pt (seg_outer, pt_inner)
     | (Polygon poly_outer, Point pt_inner) -> poly_includes_pt (poly_outer, pt_inner)
-    | (Polygon poly_outer, Segment seg_inner) -> poly_includes_seg (poly_outer, seg_inner)
-    | (Segment seg_outer, Segment seg_inner) -> eq_segment (seg_outer, seg_inner)
+    | (Polygon poly_outer, Segment seg_inner) -> 
+        let inter = poly_inter_seg (poly_outer, seg_inner) in
+        match inter with
+        | Cons (Segment seg_inter, Nil) -> eq_segment (seg_inter, seg_inner)
+        | _ -> FF
+        end
+    | (Segment seg_outer, Segment seg_inner) -> 
+        let inter = seg_inter_seg (seg_outer, seg_inner) in
+        match inter with
+        | Segment seg_inter -> eq_segment (seg_inter, seg_inner)
+        | _ -> FF
+        end
     | (Polygon poly_outer, Polygon poly_inner) ->
-        let inter = poly_poly_inter (poly_outer, poly_inner) in
+        let inter = poly_inter_poly (poly_outer, poly_inner) in
         match inter with
         | Cons (Polygon poly_inter, Nil) -> eq_polygon (poly_inter, poly_inner)
         | _ -> FF
@@ -135,7 +144,7 @@ val geo_includes_fig ((inner: figure), (outer: geometry)) : bool =
     end
 
 val poly_includes_poly ((outer: polygon), (inner: polygon)) : bool =
-    let inter = poly_poly_inter (outer, inner) in
+    let inter = poly_inter_poly (outer, inner) in
     match inter with
     | Cons (Polygon poly_inter, Nil) ->
         let res = eq_polygon (poly_inter, inner) in
