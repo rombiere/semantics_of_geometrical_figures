@@ -2,7 +2,7 @@
 
 Projet Sémantiques Avancées - M2 SIF
 
-Un interpréteur de langage dédié à la géométrie computationnelle, écrit en Skel. Le projet implémente des opérations géométriques sur des points, segments et polygones (avec support des trous).
+Un interpréteur de langage dédié à la géométrie computationnelle, écrit en Skel. Le projet implémente des opérations géométriques sur des points, segments et polygones.
 
 Une bibliothèque d'opérations géométriques élémentaires a d'abord dû être écrite en OCaml. Ces opérations incluent :
 - Égalité de points, segments, polygones
