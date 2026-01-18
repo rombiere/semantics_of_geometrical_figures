@@ -2,7 +2,7 @@
 
 Projet de M2 SIF - ASM (Analyse Sémantique et Modèles)
 
-Un interpréteur de langage dédié à la géométrie computationnelle, écrit en Skell. Le projet implémente des opérations géométriques sur des points, segments et polygones (avec support des trous).
+Un interpréteur de langage dédié à la géométrie computationnelle, écrit en Skel. Le projet implémente des opérations géométriques sur des points, segments et polygones (avec support des trous).
 
 Une bibliothèque d'opérations géométriques élémentaires a d'abord dû être écrite en OCaml. Ces opérations incluent :
 - Égalité de points, segments, polygones
@@ -156,7 +156,7 @@ semantics_of_geometrical_figures/
 │
 ├── bin/                      
 │   ├── dune                  # Configuration de build
-│   ├── fig.sk                # Spécification Skell du langage
+│   ├── fig.sk                # Spécification Skel du langage
 │   └── main.ml               # Programme principal avec exemples
 │
 ├── lib/                   
