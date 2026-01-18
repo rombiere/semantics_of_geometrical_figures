@@ -1,12 +1,12 @@
 (rule
-    (target fig.ml)
-    (deps fig.sk)
+    (target geo.ml)
+    (deps geo.sk)
     (action (run necroml -o %{target} %{deps})))
 
 (executable
-    (public_name semantics_of_geometrical_figures)
+    (public_name geo_semantics)
     (name main)
-    (libraries necroml camlgpc semantics_of_geometrical_figures))
+    (libraries necroml camlgpc geo_semantics))
 
 (env
     (dev (flags (:standard -w -8))))

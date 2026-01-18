@@ -1,4 +1,4 @@
-open Fig
+open Geo
 
 module M = Necromonads.ID
 
@@ -8,7 +8,7 @@ module IMap = Map.Make( Stdlib.Int )
 module Types = struct
   type point = float * float
   type segment = point * point
-  type polygon = Semantics_of_geometrical_figures.Figure_utils.FigureUtils.polygon
+  type polygon = Geo_semantics.Figure_utils.FigureUtils.polygon
   type ident = int
   type 'a env = 'a IMap.t
 end
@@ -16,7 +16,7 @@ end
 
 module Spec = struct
   include Unspec (M) (Types)
-  include Semantics_of_geometrical_figures.Figure_utils
+  include Geo_semantics.Figure_utils
 
   let in_env (env, id) = if IMap.mem id env then TT else FF
   let get_env (env, id) = IMap.find id env
@@ -108,8 +108,8 @@ let string_of_value = function
 
 let test_intersection_union_difference () =
   Printf.printf "\n=== Ex1: A ∩ B, A ∪ B, A Δ B, A \\ B ===\n";
-  let a = Semantics_of_geometrical_figures.Figure_utils.FigureUtils.{ outer = [(0., 0.); (4., 0.); (4., 4.); (0., 4.)]; holes = [] } in
-  let b = Semantics_of_geometrical_figures.Figure_utils.FigureUtils.{ outer = [(2., 2.); (6., 2.); (6., 6.); (2., 6.)]; holes = [] } in
+  let a = Geo_semantics.Figure_utils.FigureUtils.{ outer = [(0., 0.); (4., 0.); (4., 4.); (0., 4.)]; holes = [] } in
+  let b = Geo_semantics.Figure_utils.FigureUtils.{ outer = [(2., 2.); (6., 2.); (6., 6.); (2., 6.)]; holes = [] } in
   Printf.printf "A = %s\nB = %s\n"
     (string_of_geometry (Cons (Polygon a, Nil)))
     (string_of_geometry (Cons (Polygon b, Nil)));
@@ -140,9 +140,9 @@ let test_intersection_union_difference () =
     (string_of_value inter_val) (string_of_value union_val) (string_of_value sym_diff_val) (string_of_value diff_val)
 
 let test_associativity_union () =
-  let a = Semantics_of_geometrical_figures.Figure_utils.FigureUtils.{ outer = [(0., 0.); (2., 0.); (2., 2.); (0., 2.)]; holes = [] } in
-  let b = Semantics_of_geometrical_figures.Figure_utils.FigureUtils.{ outer = [(1., 1.); (3., 1.); (3., 3.); (1., 3.)]; holes = [] } in
-  let c = Semantics_of_geometrical_figures.Figure_utils.FigureUtils.{ outer = [(2., 2.); (4., 2.); (4., 4.); (2., 4.)]; holes = [] } in
+  let a = Geo_semantics.Figure_utils.FigureUtils.{ outer = [(0., 0.); (2., 0.); (2., 2.); (0., 2.)]; holes = [] } in
+  let b = Geo_semantics.Figure_utils.FigureUtils.{ outer = [(1., 1.); (3., 1.); (3., 3.); (1., 3.)]; holes = [] } in
+  let c = Geo_semantics.Figure_utils.FigureUtils.{ outer = [(2., 2.); (4., 2.); (4., 4.); (2., 4.)]; holes = [] } in
   let a_geo = Cons (Polygon a, Nil) in
   let b_geo = Cons (Polygon b, Nil) in
   let c_geo = Cons (Polygon c, Nil) in
@@ -161,8 +161,8 @@ let test_associativity_union () =
       Eq (Var 4, Var 6)))))))))))
     
 let test_union_contains_intersection () =
-  let a = Semantics_of_geometrical_figures.Figure_utils.FigureUtils.{ outer = [(0., 0.); (2., 0.); (2., 2.); (0., 2.)]; holes = [] } in
-  let b = Semantics_of_geometrical_figures.Figure_utils.FigureUtils.{ outer = [(1., 1.); (3., 1.); (3., 3.); (1., 3.)]; holes = [] } in
+  let a = Geo_semantics.Figure_utils.FigureUtils.{ outer = [(0., 0.); (2., 0.); (2., 2.); (0., 2.)]; holes = [] } in
+  let b = Geo_semantics.Figure_utils.FigureUtils.{ outer = [(1., 1.); (3., 1.); (3., 3.); (1., 3.)]; holes = [] } in
   let a_geo = Cons (Polygon a, Nil) in
   let b_geo = Cons (Polygon b, Nil) in
   Printf.printf "\n=== Ex3: (A ∪ B) ⊇ (A ∩ B) ===\nA = %s\nB = %s\nRésultat du test d'inclusion: %s\nRésultat attendu: True\n"
@@ -176,9 +176,9 @@ let test_union_contains_intersection () =
       Includes (Var 3, Var 2))))))))
 
 let test_distributivity () =
-  let a = Semantics_of_geometrical_figures.Figure_utils.FigureUtils.{ outer = [(0., 0.); (2., 0.); (2., 2.); (0., 2.)]; holes = [] } in
-  let b = Semantics_of_geometrical_figures.Figure_utils.FigureUtils.{ outer = [(1., 1.); (3., 1.); (3., 3.); (1., 3.)]; holes = [] } in
-  let c = Semantics_of_geometrical_figures.Figure_utils.FigureUtils.{ outer = [(2., 2.); (4., 2.); (4., 4.); (2., 4.)]; holes = [] } in
+  let a = Geo_semantics.Figure_utils.FigureUtils.{ outer = [(0., 0.); (2., 0.); (2., 2.); (0., 2.)]; holes = [] } in
+  let b = Geo_semantics.Figure_utils.FigureUtils.{ outer = [(1., 1.); (3., 1.); (3., 3.); (1., 3.)]; holes = [] } in
+  let c = Geo_semantics.Figure_utils.FigureUtils.{ outer = [(2., 2.); (4., 2.); (4., 4.); (2., 4.)]; holes = [] } in
   let a_geo = Cons (Polygon a, Nil) in
   let b_geo = Cons (Polygon b, Nil) in
   let c_geo = Cons (Polygon c, Nil) in
@@ -198,8 +198,8 @@ let test_distributivity () =
       Eq (Var 4, Var 7))))))))))))
 
 let test_symmetric_difference_not_union () =
-    let a = Semantics_of_geometrical_figures.Figure_utils.FigureUtils.{ outer = [(0., 0.); (2., 0.); (2., 2.); (0., 2.)]; holes = [] } in
-    let b = Semantics_of_geometrical_figures.Figure_utils.FigureUtils.{ outer = [(1., 1.); (3., 1.); (3., 3.); (1., 3.)]; holes = [] } in
+    let a = Geo_semantics.Figure_utils.FigureUtils.{ outer = [(0., 0.); (2., 0.); (2., 2.); (0., 2.)]; holes = [] } in
+    let b = Geo_semantics.Figure_utils.FigureUtils.{ outer = [(1., 1.); (3., 1.); (3., 3.); (1., 3.)]; holes = [] } in
     let a_geo = Cons (Polygon a, Nil) in
     let b_geo = Cons (Polygon b, Nil) in
     Printf.printf "\n=== Ex5: A ∪ B = A Δ B ===\nA = %s\nB = %s\nRésultat du test d'égalité: %s\nRésultat attendu: False\n"

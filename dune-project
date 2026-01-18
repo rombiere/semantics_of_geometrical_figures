@@ -1,6 +1,6 @@
 (lang dune 3.20)
 
-(name semantics_of_geometrical_figures)
+(name geo_semantics)
 
 (generate_opam_files true)
 
@@ -16,7 +16,7 @@
 (documentation https://url/to/documentation)
 
 (package
- (name semantics_of_geometrical_figures)
+ (name geo_semantics)
  (synopsis "A short synopsis")
  (description "A longer description")
  (depends ocaml)

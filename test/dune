@@ -1,6 +1,6 @@
 (test
-    (name test_semantics_of_geometrical_figures)
-    (libraries necroml alcotest camlgpc semantics_of_geometrical_figures))
+    (name test_geo_semantics)
+    (libraries necroml alcotest camlgpc geo_semantics))
 
 (env
     (dev (flags (:standard -w -8))))

@@ -14,11 +14,11 @@ Une bibliothèque d'opérations géométriques élémentaires a d'abord dû êtr
 ## 🚀 Lancement rapide
 
 ```bash
-git clone https://github.com/rombiere/semantics_of_geometrical_figures.git 
-cd semantics_of_geometrical_figures
+git clone https://github.com/rombiere/geo_semantics.git 
+cd geo_semantics
 opam install camlgpc
 dune build
-dune exe semantics_of_geometrical_figures
+dune exe geo_semantics
 ```
 
 ## ✨ Fonctionnalités
@@ -78,13 +78,13 @@ opam install necrolib
 ### Cloner le dépôt
 
 ```bash
-git clone https://github.com/rombiere/semantics_of_geometrical_figures.git
+git clone https://github.com/rombiere/geo_semantics.git
 ```
 
 ### Compiler le projet
 
 ```bash
-cd semantics_of_geometrical_figures
+cd geo_semantics
 dune build
 ```
 
@@ -93,7 +93,7 @@ dune build
 Le programme principal exécute plusieurs exemples d'opérations géométriques :
 
 ```bash
-dune exec semantics_of_geometrical_figures
+dune exec geo_semantics
 ```
 
 **Sortie attendue :**
@@ -149,14 +149,14 @@ Résultat attendu: False
 ## 📁 Architecture du projet
 
 ```
-semantics_of_geometrical_figures/
+geo_semantics/
 ├── README.md                 # Ce fichier
 ├── dune-project              # Configuration Dune
-├── semantics_of_geometrical_figures.opam           # Fichier de dépendances Opam
+├── geo_semantics.opam           # Fichier de dépendances Opam
 │
 ├── bin/                      
 │   ├── dune                  # Configuration de build
-│   ├── fig.sk                # Spécification Skel du langage
+│   ├── geo.sk                # Spécification Skel du langage
 │   └── main.ml               # Programme principal avec exemples
 │
 ├── lib/                   

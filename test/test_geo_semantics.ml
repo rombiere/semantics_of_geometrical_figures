@@ -1,4 +1,4 @@
-open Semantics_of_geometrical_figures.Figure_utils.FigureUtils
+open Geo_semantics.Figure_utils.FigureUtils
 
 (* ========== Helper Functions ========== *)
 

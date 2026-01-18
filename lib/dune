@@ -1,5 +1,5 @@
 (library
- (name semantics_of_geometrical_figures)
- (public_name semantics_of_geometrical_figures)
+ (name geo_semantics)
+ (public_name geo_semantics)
  (libraries camlgpc)
  (modules figure_utils))
