@@ -301,8 +301,8 @@ Les polygones partageant plusieurs arêtes présentent des instabilités dans la
 
 ## 📚 Références
 
-- [Necroml](https://github.com/pedagand/necroml) - Compilateur Necroml
-- [GPC](http://www.cs.man.ac.uk/~toby/alan/software/) - General Polygon Clipper
+- [Necroml](https://skeletons.inria.fr/) - Skeletal semantics
+- [camlgcp](https://github.com/johnwhitington/camlgpc) - OCaml interface to Alan Murta's General Polygon Clipper.
 - [Dune](https://dune.readthedocs.io/) - Documentation Dune
 - [Alcotest](https://github.com/mirage/alcotest) - Framework de tests
 
