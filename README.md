@@ -14,7 +14,7 @@ dune build
 dune exe geo_semantics
 ```
 
-## Fonctionnalités
+## 🛠️ Fonctionnalités
 
 ### Types géométriques
 - **Empty** : figure vide
